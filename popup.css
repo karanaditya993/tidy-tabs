@@ -1,15 +1,57 @@
 body {
-  min-width: 500px;
   font-family: 'Roboto', sans-serif;
+  min-width: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+img {
+  height: 20px;
+  width: 20px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+button {
+  margin-top: 15px;
+  width: 100%;
+  border: none;
+  height: 30px;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 14px;
+  border-radius: 10px;
+  background-color: #219cc0;
+  cursor: pointer;
+}
+
+.header {
+  background-image: url("cleaning-sm.png");
+  height: 150px;
+  width: 350px;
+}
+
+.tabs {
+  justify-content: stretch;
 }
 
 .tab {
+  border-bottom: 0.5px solid rgb(218, 218, 218);
+  height: 30px;
+  width: 320px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 5px;
   position: relative;
 }
 
-.tab, .tab-label {
-  display: flex;
-  align-items: center;
+.tab:hover {
+  background-color: rgb(244, 244, 244);
 }
 
 .tab-badge {

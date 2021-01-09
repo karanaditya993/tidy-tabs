@@ -18,9 +18,10 @@
         sameTab.tabIds.push(tab.id)
       } else {
         tabsData.push({
+          icon: tab.favIconUrl,
           name: getDomainFromUrl(tab.url),
-          url: matchedUrl,
           tabIds: [tab.id],
+          url: matchedUrl,
         })
       }
     })
@@ -30,20 +31,28 @@
   const renderTabList = (tabsData) => {
     const tabsEl = document.getElementsByClassName('tabs')[0]
     tabsData.map((tab, idx) => {
-      const tabEl       = document.createElement('div')
-      tabEl.className   = 'tab'
+      const badgeEl     = document.createElement('div')
       const checkboxEl  = document.createElement('input')
+      const favicon     = document.createElement('img')
+      const label       = document.createElement('label')
+      const tabEl       = document.createElement('div')
+
+      tabEl.className   = 'tab'
       checkboxEl.name   = 'tab'
       checkboxEl.type   = 'checkbox'
       checkboxEl.id     = idx
       checkboxEl.value  = tab.url
       checkboxEl.dataset.tabIds = tab.tabIds.join(',')
-      const label       = document.createElement('label')
+      favicon.src       = tab.icon
       label.className   = 'tab-label'
       label.htmlFor     = checkboxEl.id
-      label.innerHTML   = `<span>${tab.name}</span> <div class="tab-badge">${tab.tabIds.length}</div>`
+      label.innerHTML   = `<span>${tab.name}</span>`
+      badgeEl.className = 'tab-badge'
+      badgeEl.innerText = tab.tabIds.length
       tabEl.appendChild(checkboxEl)
+      tabEl.appendChild(favicon)
       tabEl.appendChild(label)
+      tabEl.appendChild(badgeEl)
       tabsEl.appendChild(tabEl)
     })
   }
