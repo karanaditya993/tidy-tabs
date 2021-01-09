@@ -5,69 +5,81 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #282c34;
 }
 
-img {
-  height: 20px;
-  width: 20px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-button {
-  margin-top: 15px;
-  width: 100%;
-  border: none;
-  height: 30px;
-  color: white;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 14px;
-  border-radius: 10px;
-  background-color: #219cc0;
-  cursor: pointer;
-}
-
-.header {
-  background-image: url("cleaning-sm.png");
-  height: 150px;
-  width: 350px;
+.tab-container {
+  padding: 20px;
 }
 
 .tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   justify-content: stretch;
+  grid-gap: 3em;
 }
 
-.tab {
-  border-bottom: 0.5px solid rgb(218, 218, 218);
-  height: 30px;
-  width: 320px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding-left: 5px;
+.tab-badge-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   position: relative;
-  cursor: pointer;
 }
 
-.tab:hover {
-  background-color: rgb(244, 244, 244);
-}
-
-.tab-name {
-  cursor: pointer;
-}
-
-.tab-badge {
+.close-icon {
+  position: absolute;
+  right: -13px;
+  top: -15px;
+  width: 23px;
+  height: 23px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 20px;
-  height: 20px;
-  color: white;
-  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-icon:hover {
+  opacity: 1;
+}
+
+.close-icon:before, .close-icon:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 15px;
+  width: 2px;
+  background-color: white;
+}
+
+.close-icon:before {
+  transform: rotate(45deg);
+}
+
+.close-icon:after {
+  transform: rotate(-45deg);
+}
+
+.tab {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+.num-badge { 
+  width: 15px;
+  height: 15px;
+  border: 2px solid black;
   border-radius: 50%;
   position: absolute;
-  right: 0;
+  bottom: -10px;
+  right: -7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: white;
 }
