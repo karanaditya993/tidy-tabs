@@ -58,10 +58,9 @@
 
   const renderTabList = () => {
     tabsData.sort((tab1, tab2) => tab2.tabIds.length - tab1.tabIds.length)
-
     tabsData.map((tab, idx) => {
       if (document.getElementById('list-container').style.display !== 'none'
-        && document.getElementsByClassName('list-tabs')[0].children !== tabsData.length
+        && document.getElementsByClassName('list-tabs')[0].children.length !== tabsData.length
       ) {
         const tabsEl = document.getElementsByClassName('list-tabs')[0]
         const badgeEl     = document.createElement('div')
@@ -88,13 +87,47 @@
         tabEl.appendChild(label)
         tabEl.appendChild(badgeEl)
         tabsEl.appendChild(tabEl)
+      } else if (document.getElementById('grid-container').style.display !== 'none'
+        && document.getElementsByClassName('grid-tabs')[0].children.length !== tabsData.length
+      ) {
+        const tabsEl = document.getElementsByClassName('grid-tabs')[0]
+        const badgeEl     = document.createElement('div')
+        const numBadge    = document.createElement('div')
+        const closeIcon   = document.createElement('div')
+        const tabEl       = document.createElement('div')
+
+        tabEl.className   = 'tab'
+        tabEl.dataset.tabIds = tab.tabIds.join(',')
+        closeIcon.className = 'close-icon'
+        badgeEl.className = 'tab-badge-icon'
+        badgeEl.style.backgroundImage = `url(${tab.icon})`
+        badgeEl.style.backgroundRepeat = 'no-repeat'
+        badgeEl.style.backgroundSize = 'cover'
+        numBadge.className = 'num-badge'
+        numBadge.style.backgroundColor = getBadgeColor(tab.tabIds.length)
+        numBadge.innerText = tab.tabIds.length
+        badgeEl.appendChild(closeIcon)
+        badgeEl.appendChild(numBadge)
+        tabEl.appendChild(badgeEl)
+        tabsEl.appendChild(tabEl)
       }
     })
   }
 
   const addListeners = () => {
     document.body.addEventListener('click', (el) => {
-      if (document.getElementById('list-container')) {
+      if (el.target.id === 'switch-checkbox') {
+        if (el.target.checked) {
+          document.getElementById('grid-container').style.display = 'block'
+          document.getElementById('list-container').style.display = 'none'
+        } else {
+          document.getElementById('grid-container').style.display = 'none'
+          document.getElementById('list-container').style.display = 'block'
+        }
+        renderTabList()
+      }
+
+      if (document.getElementById('list-container').style.display !== 'none') {
         if (el.target.className === 'tab') {
           const input = el.target.querySelector('input')
           input.checked = !input.checked
@@ -110,6 +143,12 @@
           })
           return
         }
+      } else if (document.getElementById('grid-container').style.display !== 'none') {
+        const tabEl = el.target.closest('.tab')
+        const tabIds = tabEl.dataset.tabIds.split(',').map(val => Number(val))
+        chrome.tabs.remove(tabIds, () => {
+          window.location.reload()
+        })
       }
     })
   }
