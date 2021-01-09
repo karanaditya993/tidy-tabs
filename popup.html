@@ -3,12 +3,22 @@
     <link rel="stylesheet" href="popup.css">
   </head>
   <body>
-    <div class="header"></div>
-    <div class="tab-container">
-      <div class="tabs">
+    <div id="list-container">
+      <div class="header">
+        <div><img id="trash" src="trash.png" /></div>
+        <div id="title">
+          Tidy the Tabs
+          <div id="subtitle">
+            Clear your workspace, clear your mind
+          </div>
+        </div>
       </div>
+      <div class="list-tab-container">
+        <div class="list-tabs">
+        </div>
+      </div>
+      <button id="close">Clear</button>
     </div>
-    <button id="close">Tidy</button>
     <script src="popup.js"></script>
   </body>
 </html>  
