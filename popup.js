@@ -18,9 +18,10 @@
         sameTab.tabIds.push(tab.id)
       } else {
         tabsData.push({
+          icon: tab.favIconUrl,
           name: getDomainFromUrl(tab.url),
-          url: matchedUrl,
           tabIds: [tab.id],
+          url: matchedUrl,
         })
       }
     })
@@ -38,10 +39,13 @@
       checkboxEl.id     = idx
       checkboxEl.value  = tab.url
       checkboxEl.dataset.tabIds = tab.tabIds.join(',')
+      const favicon     = document.createElement('img')
+      favicon.src       = tab.icon
       const label       = document.createElement('label')
       label.htmlFor     = checkboxEl.id
       label.innerHTML   = `<span>${tab.name}</span> <span>(${tab.tabIds.length})</span>`
       tabEl.appendChild(checkboxEl)
+      tabEl.appendChild(favicon)
       tabEl.appendChild(label)
       tabsEl.appendChild(tabEl)
     })
