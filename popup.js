@@ -71,7 +71,7 @@
       favicon.src       = tab.icon
       label.className   = 'tab-label'
       label.htmlFor     = checkboxEl.id
-      label.innerHTML   = `<span>${tab.name}</span>`
+      label.innerHTML   = `<span class="tab-name">${tab.name}</span>`
       badgeEl.className = 'tab-badge'
       badgeEl.innerText = tab.tabIds.length
       badgeEl.style.backgroundColor = getBadgeColor(tab.tabIds.length)
@@ -83,17 +83,28 @@
     })
   }
 
-  closeBtn.addEventListener('click', () => {
-    const checkedTabIds = [...document.querySelectorAll('input[name=tab]:checked')]
-                            .map(box => box.dataset.tabIds.split(',')
-                            .map(val => Number(val)))
-                            .flat()
-    chrome.tabs.remove(checkedTabIds, () => {
-      window.location.reload()
+  const addListeners = () => {
+    document.body.addEventListener('click', (el) => {
+      if (el.target.className === 'tab') {
+        const input = el.target.querySelector('input')
+        input.checked = !input.checked
+        return
+      }
+      if (el.target.id === 'close') {
+        const checkedTabIds = [...document.querySelectorAll('input[name=tab]:checked')]
+                              .map(box => box.dataset.tabIds.split(',')
+                              .map(val => Number(val)))
+                              .flat()
+        chrome.tabs.remove(checkedTabIds, () => {
+          window.location.reload()
+        })
+        return
+      }
     })
-  })
+  }
 
   window.onload = () => {
+    addListeners()
     chrome.tabs.query({}, partitionTabs)
   }
 })()
