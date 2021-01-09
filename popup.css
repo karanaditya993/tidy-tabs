@@ -20,6 +20,12 @@ button {
   height: 30px;
 }
 
+.header {
+  background-image: url("cleaning-sm.png");
+  height: 150px;
+  width: 350px;
+}
+
 .tabs {
   justify-content: stretch;
 }
