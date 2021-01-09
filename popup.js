@@ -34,13 +34,14 @@
       tabEl.className   = 'tab'
       const checkboxEl  = document.createElement('input')
       checkboxEl.name   = 'tab'
-      checkboxEl.type   = "checkbox"
+      checkboxEl.type   = 'checkbox'
       checkboxEl.id     = idx
       checkboxEl.value  = tab.url
       checkboxEl.dataset.tabIds = tab.tabIds.join(',')
       const label       = document.createElement('label')
+      label.className   = 'tab-label'
       label.htmlFor     = checkboxEl.id
-      label.innerHTML   = `<span>${tab.name}</span> <span>(${tab.tabIds.length})</span>`
+      label.innerHTML   = `<span>${tab.name}</span> <div class="tab-badge">${tab.tabIds.length}</div>`
       tabEl.appendChild(checkboxEl)
       tabEl.appendChild(label)
       tabsEl.appendChild(tabEl)
