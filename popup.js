@@ -30,17 +30,21 @@
   const getBadgeColor = (numTabs) => {
     let color
     const badgeColors = {
-      success: {
-        threshold: [1, 2],
-        color: '#25a363'
+      low: {
+        threshold: [1, 1],
+        color: '#e6e6e6' 
       },
-      warning: {
-        threshold: [3, 5],
-        color: '#f16f35'
+      few: {
+        threshold: [2, 2],
+        color: '#d3d3d3' 
       },
-      danger: {
-        threshold: [6, Infinity],
-        color: '#bd3d44'
+      couple: {
+        threshold: [3, 3],
+        color: '#c3c3c4'
+      },
+      many: {
+        threshold: [4, Infinity],
+        color: '#b2b2b3'
       }
     }
 
@@ -53,6 +57,7 @@
   }
 
   const renderTabList = () => {
+    tabsData.sort((tab1, tab2) => tab2.tabIds.length - tab1.tabIds.length)
     tabsData.map((tab, idx) => {
       if (document.getElementById('list-container').style.display !== 'none'
         && document.getElementsByClassName('list-tabs')[0].children.length !== tabsData.length

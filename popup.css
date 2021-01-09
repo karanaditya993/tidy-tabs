@@ -1,18 +1,20 @@
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
   min-width: 350px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background:white;
 }
 
 /* LIST CONTAINER */
 #list-container img {
   height: 20px;
   width: 20px;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 #list-container button {
@@ -24,26 +26,46 @@ body {
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  font-size: 14px;
-  border-radius: 10px;
-  background-color: #219cc0;
+  font-size: 16px;
+  /* border-radius: 5px; */
+  background-color: black;
   cursor: pointer;
 }
 
-#list-container .header {
-  background-image: url("cleaning-sm.png");
+#list-container h1 {
+  font-weight: none;
+}
+
+.header {
+  background: #f5f5f7;
   height: 150px;
   width: 350px;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#list-container .list-tab-container {
+  width: 100%;
+  background: white;
+  max-height: 340px;
+  display: flex;
+  flex-flow: column;
+  flex-wrap: nowrap;
+  overflow: scroll;
 }
 
 #list-container .list-tabs {
   justify-content: stretch;
+  letter-spacing: 0.05em;
 }
 
 #list-container .tab {
   border-bottom: 0.5px solid rgb(218, 218, 218);
   height: 30px;
-  width: 320px;
+  width: 325px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -66,14 +88,43 @@ body {
   align-items: center;
   width: 20px;
   height: 20px;
-  color: white;
-  font-weight: bold;
-  border-radius: 50%;
+  color: black;
+  font-weight: normal;
+  border-radius: 20%;
   position: absolute;
   right: 0;
 }
 
+#trash {
+  height: 80px;
+  width: 80px;
+}
+
+#title {
+  font-size: 24px;
+  font-weight: bold;
+  width: 50%;
+  /* padding: 5px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#subtitle {
+  font-size: 14px;
+  font-weight: normal;
+  width: 80%;
+  margin-top: 2px;
+}
+
 /* GRID CONTAINER */
+
+#grid-container {
+  background-color: #f5f5f7;
+  width: 350px;
+  border-top: 1px solid white;
+}
 
 #grid-container .grid-tab-container {
   padding: 20px;
@@ -116,7 +167,7 @@ body {
   content: ' ';
   height: 15px;
   width: 2px;
-  background-color: white;
+  background-color: black;
 }
 
 #grid-container .close-icon:before {
@@ -140,7 +191,7 @@ body {
   width: 15px;
   height: 15px;
   border: 2px solid black;
-  border-radius: 50%;
+  border-radius: 20%;
   position: absolute;
   bottom: -10px;
   right: -7px;
@@ -148,16 +199,17 @@ body {
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  color: white;
+  color: black;
 }
 
 /* toggle switch */
 /* The switch - the box around the slider */
 .switch {
-  position: relative;
-  display: inline-block;
+  position: absolute;
   width: 60px;
   height: 34px;
+  top: 10px;
+  right: 10px;
 }
 
 /* Hide default HTML checkbox */
