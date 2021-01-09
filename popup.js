@@ -127,7 +127,7 @@
         renderTabList()
       }
 
-      if (document.getElementById('list-container')) {
+      if (document.getElementById('list-container').style.display !== 'none') {
         if (el.target.className === 'tab') {
           const input = el.target.querySelector('input')
           input.checked = !input.checked
@@ -143,7 +143,7 @@
           })
           return
         }
-      } else if (document.getElementById('grid-container')) {
+      } else if (document.getElementById('grid-container').style.display !== 'none') {
         const tabEl = el.target.closest('.tab')
         const tabIds = tabEl.dataset.tabIds.split(',').map(val => Number(val))
         chrome.tabs.remove(tabIds, () => {
