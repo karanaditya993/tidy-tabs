@@ -3,9 +3,22 @@
     <link rel="stylesheet" href="popup.css">
   </head>
   <body>
-    <!-- <div class="header"></div> -->
-    <div class="tab-container">
-      <div class="tabs">
+    <label class="switch">
+      <input id="switch-checkbox" type="checkbox">
+      <span class="slider round"></span>
+    </label>
+    <div id="list-container">
+      <div class="header"></div>
+      <div class="list-tab-container">
+        <div class="list-tabs">
+        </div>
+      </div>
+      <button id="close">Tidy</button>
+    </div>
+    <div id="grid-container" style="display: none;">
+      <div class="grid-tab-container">
+        <div class="grid-tabs">
+        </div>
       </div>
     </div>
     <script src="popup.js"></script>

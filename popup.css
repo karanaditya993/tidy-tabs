@@ -5,21 +5,88 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #282c34;
 }
 
-.tab-container {
+/* LIST CONTAINER */
+#list-container img {
+  height: 20px;
+  width: 20px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#list-container button {
+  margin-top: 15px;
+  width: 100%;
+  border: none;
+  height: 30px;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 14px;
+  border-radius: 10px;
+  background-color: #219cc0;
+  cursor: pointer;
+}
+
+#list-container .header {
+  background-image: url("cleaning-sm.png");
+  height: 150px;
+  width: 350px;
+}
+
+#list-container .list-tabs {
+  justify-content: stretch;
+}
+
+#list-container .tab {
+  border-bottom: 0.5px solid rgb(218, 218, 218);
+  height: 30px;
+  width: 320px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 5px;
+  position: relative;
+  cursor: pointer;
+}
+
+#list-container .tab:hover {
+  background-color: rgb(244, 244, 244);
+}
+
+#list-container .tab-name {
+  cursor: pointer;
+}
+
+#list-container .tab-badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  color: white;
+  font-weight: bold;
+  border-radius: 50%;
+  position: absolute;
+  right: 0;
+}
+
+/* GRID CONTAINER */
+
+#grid-container .grid-tab-container {
   padding: 20px;
 }
 
-.tabs {
+#grid-container .grid-tabs {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-content: stretch;
   grid-gap: 3em;
 }
 
-.tab-badge-icon {
+#grid-container .tab-badge-icon {
   width: 40px;
   height: 40px;
   border-radius: 15px;
@@ -27,7 +94,7 @@ body {
   position: relative;
 }
 
-.close-icon {
+#grid-container .close-icon {
   position: absolute;
   right: -13px;
   top: -15px;
@@ -39,11 +106,11 @@ body {
   cursor: pointer;
 }
 
-.close-icon:hover {
+#grid-container .close-icon:hover {
   opacity: 1;
 }
 
-.close-icon:before, .close-icon:after {
+#grid-container .close-icon:before, .close-icon:after {
   position: absolute;
   left: 15px;
   content: ' ';
@@ -52,15 +119,15 @@ body {
   background-color: white;
 }
 
-.close-icon:before {
+#grid-container .close-icon:before {
   transform: rotate(45deg);
 }
 
-.close-icon:after {
+#grid-container .close-icon:after {
   transform: rotate(-45deg);
 }
 
-.tab {
+#grid-container .tab {
   height: 100%;
   width: 100%;
   display: flex;
@@ -69,7 +136,7 @@ body {
   position: relative;
 }
 
-.num-badge { 
+#grid-container .num-badge { 
   width: 15px;
   height: 15px;
   border: 2px solid black;
@@ -82,4 +149,68 @@ body {
   align-items: center;
   font-weight: bold;
   color: white;
+}
+
+/* toggle switch */
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
