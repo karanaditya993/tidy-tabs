@@ -120,48 +120,65 @@
         badgeEl.appendChild(closeIcon)
         badgeEl.appendChild(numBadge)
       }
-      tabEl.appendChild(badgeEl)
-      tabsEl.appendChild(tabEl)
+      tabEl && tabEl.appendChild(badgeEl)
+      tabsEl && tabsEl.appendChild(tabEl)
     })
   }
 
-  const addListeners = () => {
-    // document.body.addEventListener('click', (el) => {
-    //   if (el.target.id === 'switch-checkbox' || el.target.className.includes('slider')) {
-    //     if (el.target.checked) {
-    //       document.getElementById('grid-container').style.display = 'block'
-    //       document.getElementById('list-container').style.display = 'none'
-    //     } else {
-    //       document.getElementById('grid-container').style.display = 'none'
-    //       document.getElementById('list-container').style.display = 'block'
-    //     }
-    //     return renderTabList()
-    //   }
+  const switchCheckboxListener = () => {
+    const switchCheckbox = document.getElementById('switch-checkbox')
+    switchCheckbox.addEventListener('click', (el) => {
+      if (el.target.checked) {
+        // show grid view
+        document.getElementById('grid-container').style.display = 'block'
+        document.getElementById('list-container').style.display = 'none'
+      } else {
+        // show list view
+        document.getElementById('grid-container').style.display = 'none'
+        document.getElementById('list-container').style.display = 'block'
+      }
+      renderTabList()
+    })
+  }
 
-    //   if (document.getElementById('list-container').style.display !== 'none') {
-    //     if (el.target.className === 'tab') {
-    //       const input = el.target.querySelector('input')
-    //       input.checked = !input.checked
-    //       return
-    //     }
-    //     if (el.target.id === 'close') {
-    //       const checkedTabIds = [...document.querySelectorAll('input[name=tab]:checked')]
-    //                             .map(box => box.dataset.tabIds.split(',')
-    //                             .map(val => Number(val)))
-    //                             .flat()
-    //       chrome.tabs.remove(checkedTabIds, () => {
-    //         window.location.reload()
-    //       })
-    //       return
-    //     }
-    //   } else if (document.getElementById('grid-container').style.display !== 'none') {
-    //     const tabEl = el.target.closest('.tab')
-    //     const tabIds = tabEl.dataset.tabIds.split(',').map(val => Number(val))
-    //     chrome.tabs.remove(tabIds, () => {
-    //       window.location.reload()
-    //     })
-    //   }
-    // })
+  const listCloseBtnListener = () => {
+    const listCloseBtn   = document.getElementById('close')
+    listCloseBtn.addEventListener('click', () => {
+      const checkedTabIds = [...document.querySelectorAll('input[name=tab]:checked')]
+                                .map(box => box.dataset.tabIds.split(',')
+                                .map(val => Number(val)))
+                                .flat()
+      chrome.tabs.remove(checkedTabIds, () => {
+        window.location.reload()
+      })
+    })
+  }
+
+  const gridCloseListener = () => {
+    let gridTabCloseIcons
+    const gridTargetNode = document.getElementsByClassName('grid-tabs')[0]
+    const gridObserver   = new MutationObserver(() => {
+      if (!gridTabCloseIcons) {
+        gridTabCloseIcons = [...document.querySelectorAll('.close-icon')]
+        gridTabCloseIcons.map((icon) => {
+          icon.addEventListener('click', (el) => {
+            const tabEl = el.target.closest('.tab')
+            const tabIds = tabEl.dataset.tabIds.split(',').map(val => Number(val))
+            chrome.tabs.remove(tabIds, () => {
+              gridObserver.disconnect()
+              window.location.reload()
+            })
+          })
+        })
+      }
+    })
+    gridObserver.observe(gridTargetNode, { childList: true })
+  }
+
+  const addListeners = () => {
+    switchCheckboxListener()
+    listCloseBtnListener()
+    gridCloseListener()
   }
 
   window.onload = () => {
