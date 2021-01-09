@@ -82,7 +82,7 @@ body {
   cursor: pointer;
 }
 
-#list-container .tab-badge {
+#list-container .tab-badge-icon {
   display: flex;
   justify-content: center;
   align-items: center;
