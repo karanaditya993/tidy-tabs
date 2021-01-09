@@ -1,2 +1,2 @@
-# Tab Destroyer
-Browser extension that lets you choose which tabs by domain you would like to close
+# Tidy Tab
+A browser extension that lets you choose which tabs you would like to close by domain
