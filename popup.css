@@ -60,10 +60,15 @@ button {
   align-items: center;
   padding-left: 5px;
   position: relative;
+  cursor: pointer;
 }
 
 .tab:hover {
   background-color: rgb(244, 244, 244);
+}
+
+.tab-name {
+  cursor: pointer;
 }
 
 .tab-badge {
@@ -72,7 +77,6 @@ button {
   align-items: center;
   width: 20px;
   height: 20px;
-  background-color: green;
   color: white;
   font-weight: bold;
   border-radius: 50%;
