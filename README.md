@@ -1,2 +1,2 @@
 # tab-destroyer
-Chrome Extension that specifically chosen tabs that are open in your browser
+Chrome Extension that lets you choose which tabs by domain you would like to close
