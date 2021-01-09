@@ -44,8 +44,9 @@
                             .map(box => box.dataset.tabIds.split(',')
                             .map(val => Number(val)))
                             .flat()
-    chrome.tabs.remove(checkedTabIds)
-    window.location.reload()
+    chrome.tabs.remove(checkedTabIds, () => {
+      window.location.reload()
+    })
   })
 
 
