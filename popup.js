@@ -3,6 +3,13 @@
   const GET_DOMAIN_REGEX  = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img
   let tabsData            = []
 
+  const getDomainFromUrl = (url) => {
+    const a = document.createElement('a')
+    a.className = 'delete'
+    a.setAttribute('href', url);
+    return a.hostname;
+  }
+
   const partitionTabs = (tabs) => {
     tabs.map((tab) => {
       const matchedUrl = tab.url.match(GET_DOMAIN_REGEX)[0]
@@ -11,6 +18,7 @@
         sameTab.tabIds.push(tab.id)
       } else {
         tabsData.push({
+          name: getDomainFromUrl(tab.url),
           url: matchedUrl,
           tabIds: [tab.id],
         })
@@ -32,7 +40,7 @@
       checkboxEl.dataset.tabIds = tab.tabIds.join(',')
       const label       = document.createElement('label')
       label.htmlFor     = checkboxEl.id
-      label.innerText   = tab.url
+      label.innerHTML   = `<span>${tab.name}</span> <span>(${tab.tabIds.length})</span>`
       tabEl.appendChild(checkboxEl)
       tabEl.appendChild(label)
       tabsEl.appendChild(tabEl)
