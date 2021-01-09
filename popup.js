@@ -28,6 +28,31 @@
     renderTabList(tabsData)
   }
 
+  const getBadgeColor = (numTabs) => {
+    let color
+    const badgeColors = {
+      success: {
+        threshold: [1, 2],
+        color: '#25a363'
+      },
+      warning: {
+        threshold: [3, 5],
+        color: '#f16f35'
+      },
+      danger: {
+        threshold: [6, Infinity],
+        color: '#bd3d44'
+      }
+    }
+
+    Object.values(badgeColors).map(badge => {
+      if (numTabs >= badge.threshold[0] && numTabs <= badge.threshold[1]) {
+        color = badge.color
+      }
+    })
+    return color
+  }
+
   const renderTabList = (tabsData) => {
     const tabsEl = document.getElementsByClassName('tabs')[0]
     tabsData.map((tab, idx) => {
@@ -49,6 +74,7 @@
       label.innerHTML   = `<span>${tab.name}</span>`
       badgeEl.className = 'tab-badge'
       badgeEl.innerText = tab.tabIds.length
+      badgeEl.style.backgroundColor = getBadgeColor(tab.tabIds.length)
       tabEl.appendChild(checkboxEl)
       tabEl.appendChild(favicon)
       tabEl.appendChild(label)
