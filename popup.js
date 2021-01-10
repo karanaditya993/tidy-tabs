@@ -1,6 +1,7 @@
 (()  => {
   const GET_DOMAIN_REGEX  = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img
   let tabsData            = []
+  let experienceType
 
   const getDomainFromUrl = (url) => {
     const a = document.createElement('a')
@@ -68,7 +69,7 @@
   )
 
   const renderTabList = () => {
-    tabsData.map((tab, idx) => {
+    tabsData.map((tab) => {
       let tabsEl
       let badgeEl       = document.createElement('div')
       let tabEl         = document.createElement('div')
@@ -94,20 +95,19 @@
         tabEl.appendChild(label)
       } else if (isOnGridView()) {
         tabsEl               = document.getElementsByClassName('grid-tabs')[0]
-        const numBadge       = document.createElement('div')
 
         tabEl.dataset.tabIds = tab.tabIds.join(',')
 
-        numBadge.className   = 'num-badge'        
-        numBadge.innerText   = tab.tabIds.length
-        numBadge.style.backgroundColor = getBadgeColor(tab.tabIds.length)
+        badgeEl.className = 'num-badge'
+        badgeEl.innerHTML = `<span class="badge-text">${tab.tabIds.length}</span> <i class="close-tab material-icons">close</i>`
+        badgeEl.style.backgroundColor = getBadgeColor(tab.tabIds.length)
 
         // badgeEl.style.backgroundImage = `url(${tab.icon})`
-        badgeEl.innerHTML = `<img src='${tab.icon}' height='30px' width='30px' />`
-        badgeEl.style.backgroundRepeat = 'no-repeat'
-        badgeEl.style.backgroundSize = 'cover'
+        tabEl.innerHTML = `<img src='${tab.icon}' height='30px' width='30px' />`
+        tabEl.style.backgroundRepeat = 'no-repeat'
+        tabEl.style.backgroundSize = 'cover'
         
-        badgeEl.appendChild(numBadge)
+        tabEl.appendChild(badgeEl)
       }
       tabEl && tabEl.appendChild(badgeEl)
       tabsEl && tabsEl.appendChild(tabEl)
@@ -121,6 +121,7 @@
       icons[1].classList.remove('active')
       document.getElementById('grid-container').style.display = 'none'
       document.getElementById('list-container').style.display = 'block'
+      // addExperienceType('list')
       renderTabList()
     });
 
@@ -129,6 +130,7 @@
       icons[0].classList.remove('active')
       document.getElementById('grid-container').style.display = 'block'
       document.getElementById('list-container').style.display = 'none'
+      // addExperienceType('grid')
       renderTabList()
     });
   }
@@ -145,7 +147,7 @@
             const tabIds = tabEl.dataset.tabIds.split(',').map(val => Number(val))
             chrome.tabs.remove(tabIds, () => {
               observer.disconnect()
-              window.location.reload()
+              window.location.href = `${window.location.href}?experience_type=${experienceType}`
             })
           })
         })
@@ -160,7 +162,15 @@
     addMutationListener('grid-tabs', '.tab')
   }
 
+  // const addExperienceType = (experienceType) => {
+  //   const url = new URL(window.location.href)
+  //   const experience = url.searchParams.experience_type || experienceType || 'list'
+  //   url.searchParams.set('experience_type', experience)
+  //   window.location.replace(url.href);
+  // }
+
   window.onload = () => {
+    // addExperienceType()
     addListeners()
     chrome.tabs.query({}, partitionTabs)
   }
