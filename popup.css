@@ -9,6 +9,65 @@ body {
   background:white;
 }
 
+/* HEADER */
+.header {
+  background: #f5f5f7;
+  height: 150px;
+  width: 350px;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 5px;
+}
+
+#trash {
+  height: 80px;
+  width: 80px;
+}
+
+#title {
+  font-size: 24px;
+  font-weight: bold;
+  width: 50%;
+  /* padding: 5px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#subtitle {
+  font-size: 14px;
+  font-weight: normal;
+  width: 80%;
+  margin-top: 2px;
+}
+
+#toggle-view {
+  margin-top: 10px;
+  align-self: flex-end;
+  position: absolute;
+  right: 10px;
+  bottom: 0px;
+}
+
+.material-icons {
+  font-size: 20px;
+}
+
+i:hover {
+  color: #b2b2b3;
+  cursor: pointer;
+}
+
+i.active {
+  color: #68b3a5;
+  cursor: auto;
+}
+
 /* LIST CONTAINER */
 #list-container img {
   height: 20px;
@@ -36,17 +95,7 @@ body {
   font-weight: none;
 }
 
-.header {
-  background: #f5f5f7;
-  height: 150px;
-  width: 350px;
-  text-align: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
+/*--TO DO: fix scroll over numbers --*/
 #list-container .list-tab-container {
   width: 100%;
   background: white;
@@ -75,7 +124,7 @@ body {
 }
 
 #list-container .tab:hover {
-  background-color: rgb(244, 244, 244);
+  background-color: #f5f5f7;
 }
 
 #list-container .tab-name {
@@ -95,174 +144,62 @@ body {
   right: 0;
 }
 
-#trash {
-  height: 80px;
-  width: 80px;
-}
-
-#title {
-  font-size: 24px;
-  font-weight: bold;
-  width: 50%;
-  /* padding: 5px; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#subtitle {
-  font-size: 14px;
-  font-weight: normal;
-  width: 80%;
-  margin-top: 2px;
-}
-
 /* GRID CONTAINER */
 
 #grid-container {
-  background-color: #f5f5f7;
-  width: 350px;
+  background-color: white;
+  width: 320px;
   border-top: 1px solid white;
 }
 
 #grid-container .grid-tab-container {
-  padding: 20px;
+  padding: 15px;
 }
 
 #grid-container .grid-tabs {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   justify-content: stretch;
-  grid-gap: 3em;
+  grid-gap: 1.5em; 
 }
 
 #grid-container .tab-badge-icon {
   width: 40px;
   height: 40px;
-  border-radius: 15px;
-  box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
-  position: relative;
-}
-
-#grid-container .close-icon {
-  position: absolute;
-  right: -13px;
-  top: -15px;
-  width: 23px;
-  height: 23px;
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
-}
-
-#grid-container .close-icon:hover {
-  opacity: 1;
-}
-
-#grid-container .close-icon:before, .close-icon:after {
-  position: absolute;
-  left: 15px;
-  content: ' ';
-  height: 15px;
-  width: 2px;
-  background-color: black;
-}
-
-#grid-container .close-icon:before {
-  transform: rotate(45deg);
-}
-
-#grid-container .close-icon:after {
-  transform: rotate(-45deg);
+  border-radius: 5px;
+  border: black solid 2px;
+  /* box-shadow: rgba(0, 0, 0, 0.3) 0 1px 2px; */
+  position: relative;
 }
 
 #grid-container .tab {
   height: 100%;
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   position: relative;
 }
 
+#grid-container .tab:hover {
+  cursor: pointer;
+}
+
 #grid-container .num-badge { 
-  width: 15px;
-  height: 15px;
-  border: 2px solid black;
+  width: 20px;
+  height: 20px;
+  border: 2px solid white;
   border-radius: 20%;
+  /* box-shadow: rgba(0, 0, 0, 0.3) 0 1px 2px; */
   position: absolute;
   bottom: -10px;
-  right: -7px;
+  right: -10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
+  /* font-weight: bold; */
   color: black;
-}
-
-/* toggle switch */
-/* The switch - the box around the slider */
-.switch {
-  position: absolute;
-  width: 60px;
-  height: 34px;
-  top: 10px;
-  right: 10px;
-}
-
-/* Hide default HTML checkbox */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
 }

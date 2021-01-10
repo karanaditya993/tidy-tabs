@@ -106,18 +106,16 @@
         const closeIcon      = document.createElement('div')
 
         tabEl.dataset.tabIds = tab.tabIds.join(',')
-        
-        closeIcon.className  = 'close-icon'
 
         numBadge.className   = 'num-badge'        
         numBadge.innerText   = tab.tabIds.length
         numBadge.style.backgroundColor = getBadgeColor(tab.tabIds.length)
 
-        badgeEl.style.backgroundImage = `url(${tab.icon})`
+        // badgeEl.style.backgroundImage = `url(${tab.icon})`
+        badgeEl.innerHTML = `<img src='${tab.icon}' height='30px' width='30px' />`
         badgeEl.style.backgroundRepeat = 'no-repeat'
         badgeEl.style.backgroundSize = 'cover'
         
-        badgeEl.appendChild(closeIcon)
         badgeEl.appendChild(numBadge)
       }
       tabEl && tabEl.appendChild(badgeEl)
@@ -125,19 +123,51 @@
     })
   }
 
-  const switchCheckboxListener = () => {
-    const switchCheckbox = document.getElementById('switch-checkbox')
-    switchCheckbox.addEventListener('click', (el) => {
-      if (el.target.checked) {
-        // show grid view
-        document.getElementById('grid-container').style.display = 'block'
-        document.getElementById('list-container').style.display = 'none'
-      } else {
-        // show list view
-        document.getElementById('grid-container').style.display = 'none'
-        document.getElementById('list-container').style.display = 'block'
-      }
+  const toggleIconListeners = () => {
+    const icons = document.querySelectorAll('.material-icons')
+    icons[0].addEventListener('click', () => {
+      icons[0].classList.add('active')
+      icons[1].classList.remove('active')
+      document.getElementById('grid-container').style.display = 'none'
+      document.getElementById('list-container').style.display = 'block'
       renderTabList()
+    });
+
+    icons[1].addEventListener('click', () => {
+      icons[1].classList.add('active')
+      icons[0].classList.remove('active')
+      document.getElementById('grid-container').style.display = 'block'
+      document.getElementById('list-container').style.display = 'none'
+      renderTabList()
+    });
+  }
+
+  // TO DO: needs more work - not reflecting until run in console (after loading) - trashing not working yet
+  const listTabListener = () => {
+    const tabRendered = document.querySelectorAll('div.tab')
+
+    const listCloseListener = (el) => {
+      const tabEl = el.target.closest('.tab')
+      const tabIds = tabEl.dataset.tabIds.split(',').map(val => Number(val))
+      chrome.tabs.remove(tabIds, () => {
+        window.location.reload()
+      })
+    }
+
+    tabRendered.forEach((domain) => {
+      const badge = domain.querySelector('.tab-badge-icon')
+      const numIds = badge.innerText
+      domain.addEventListener('mouseenter', () => {
+        badge.style.color = 'red'
+        badge.innerHTML = `<i class="material-icons">close</i>`
+      })
+
+      domain.addEventListener('mouseleave', () => {
+        badge.style.color = 'black'
+        badge.innerText = numIds
+      })
+
+      domain.addEventListener('click', listCloseListener)
     })
   }
 
@@ -159,7 +189,7 @@
     const gridTargetNode = document.getElementsByClassName('grid-tabs')[0]
     const gridObserver   = new MutationObserver(() => {
       if (!gridTabCloseIcons) {
-        gridTabCloseIcons = [...document.querySelectorAll('.close-icon')]
+        gridTabCloseIcons = [...document.querySelectorAll('.tab')]
         gridTabCloseIcons.map((icon) => {
           icon.addEventListener('click', (el) => {
             const tabEl = el.target.closest('.tab')
@@ -176,9 +206,10 @@
   }
 
   const addListeners = () => {
-    switchCheckboxListener()
+    toggleIconListeners()
     listCloseBtnListener()
     gridCloseListener()
+    listTabListener()
   }
 
   window.onload = () => {
