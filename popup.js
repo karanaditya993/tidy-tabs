@@ -77,33 +77,24 @@
 
       if (isOnListView()) {
         tabsEl            = document.getElementsByClassName('list-tabs')[0]
-        const checkboxEl  = document.createElement('input')
         const favicon     = document.createElement('img')
-        const label       = document.createElement('label')
+        const label       = document.createElement('div')
 
-        checkboxEl.name   = 'tab'
-        checkboxEl.type   = 'checkbox'
-        checkboxEl.id     = idx
-        checkboxEl.value  = tab.url
-        checkboxEl.dataset.tabIds = tab.tabIds.join(',')
+        tabEl.dataset.tabIds = tab.tabIds.join(',')
 
         favicon.src       = tab.icon
 
         label.className   = 'tab-label'
-        label.htmlFor     = checkboxEl.id
         label.innerHTML   = `<span class="tab-name">${tab.name}</span>`
 
-        
-        badgeEl.innerText = tab.tabIds.length
+        badgeEl.innerHTML = `<span class="badge-text">${tab.tabIds.length}</span> <i class="close-tab material-icons">close</i>`
         badgeEl.style.backgroundColor = getBadgeColor(tab.tabIds.length)
 
-        tabEl.appendChild(checkboxEl)
         tabEl.appendChild(favicon)
         tabEl.appendChild(label)
       } else if (isOnGridView()) {
         tabsEl               = document.getElementsByClassName('grid-tabs')[0]
         const numBadge       = document.createElement('div')
-        const closeIcon      = document.createElement('div')
 
         tabEl.dataset.tabIds = tab.tabIds.join(',')
 
@@ -142,74 +133,31 @@
     });
   }
 
-  // TO DO: needs more work - not reflecting until run in console (after loading) - trashing not working yet
-  const listTabListener = () => {
-    const tabRendered = document.querySelectorAll('div.tab')
-
-    const listCloseListener = (el) => {
-      const tabEl = el.target.closest('.tab')
-      const tabIds = tabEl.dataset.tabIds.split(',').map(val => Number(val))
-      chrome.tabs.remove(tabIds, () => {
-        window.location.reload()
-      })
-    }
-
-    tabRendered.forEach((domain) => {
-      const badge = domain.querySelector('.tab-badge-icon')
-      const numIds = badge.innerText
-      domain.addEventListener('mouseenter', () => {
-        badge.style.color = 'red'
-        badge.innerHTML = `<i class="material-icons">close</i>`
-      })
-
-      domain.addEventListener('mouseleave', () => {
-        badge.style.color = 'black'
-        badge.innerText = numIds
-      })
-
-      domain.addEventListener('click', listCloseListener)
-    })
-  }
-
-  const listCloseBtnListener = () => {
-    const listCloseBtn   = document.getElementById('close')
-    listCloseBtn.addEventListener('click', () => {
-      const checkedTabIds = [...document.querySelectorAll('input[name=tab]:checked')]
-                                .map(box => box.dataset.tabIds.split(',')
-                                .map(val => Number(val)))
-                                .flat()
-      chrome.tabs.remove(checkedTabIds, () => {
-        window.location.reload()
-      })
-    })
-  }
-
-  const gridCloseListener = () => {
-    let gridTabCloseIcons
-    const gridTargetNode = document.getElementsByClassName('grid-tabs')[0]
-    const gridObserver   = new MutationObserver(() => {
-      if (!gridTabCloseIcons) {
-        gridTabCloseIcons = [...document.querySelectorAll('.tab')]
-        gridTabCloseIcons.map((icon) => {
+  const addMutationListener = (containerSelector, clickTarget) => {
+    let tabCloseIcons
+    const targetNode = document.getElementsByClassName(containerSelector)[0]
+    const observer   = new MutationObserver(() => {
+      if (!tabCloseIcons) {
+        tabCloseIcons = [...document.querySelectorAll(clickTarget)]
+        tabCloseIcons.map((icon) => {
           icon.addEventListener('click', (el) => {
             const tabEl = el.target.closest('.tab')
             const tabIds = tabEl.dataset.tabIds.split(',').map(val => Number(val))
             chrome.tabs.remove(tabIds, () => {
-              gridObserver.disconnect()
+              observer.disconnect()
               window.location.reload()
             })
           })
         })
       }
     })
-    gridObserver.observe(gridTargetNode, { childList: true })
+    observer.observe(targetNode, { childList: true })
   }
 
   const addListeners = () => {
     toggleIconListeners()
-    listCloseBtnListener()
-    gridCloseListener()
-    listTabListener()
+    addMutationListener('list-tabs', '.tab-badge-icon')
+    addMutationListener('grid-tabs', '.tab')
   }
 
   window.onload = () => {

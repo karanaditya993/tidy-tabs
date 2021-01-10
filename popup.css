@@ -123,6 +123,31 @@ i.active {
   cursor: pointer;
 }
 
+#list-container .tab-label {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#list-container .tab img {
+  padding: 0;
+  margin-right: 10px;
+}
+
+#list-container .tab .close-tab {
+  display: none;
+}
+
+#list-container .tab:hover .close-tab {
+  display: block;
+  color: red;
+}
+
+#list-container .tab:hover .badge-text {
+  display: none;
+}
+
 #list-container .tab:hover {
   background-color: #f5f5f7;
 }
