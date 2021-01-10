@@ -69,7 +69,7 @@ i.active {
 }
 
 /* LIST CONTAINER */
-#list-container img {
+#list-container img, #list-container .favicon-container {
   height: 20px;
   width: 20px;
   padding-left: 10px;
@@ -86,7 +86,6 @@ i.active {
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 16px;
-  /* border-radius: 5px; */
   background-color: black;
   cursor: pointer;
 }
@@ -121,6 +120,7 @@ i.active {
   padding-left: 5px;
   position: relative;
   cursor: pointer;
+  margin-right: 10px;
 }
 
 #list-container .tab-label {
@@ -133,19 +133,6 @@ i.active {
 #list-container .tab img {
   padding: 0;
   margin-right: 10px;
-}
-
-#list-container .tab .close-tab {
-  display: none;
-}
-
-#list-container .tab:hover .close-tab {
-  display: block;
-  color: red;
-}
-
-#list-container .tab:hover .badge-text {
-  display: none;
 }
 
 #list-container .tab:hover {
@@ -188,45 +175,50 @@ i.active {
   grid-gap: 1.5em; 
 }
 
-#grid-container .tab-badge-icon {
+#grid-container .tab {
   width: 50px;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
-  border: black solid 2px;
-  /* box-shadow: rgba(0, 0, 0, 0.3) 0 1px 2px; */
   position: relative;
-}
-
-#grid-container .tab {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-#grid-container .tab-badge-icon:hover {
-  cursor: pointer;
   background-color: #f5f5f7;
-  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 #grid-container .num-badge { 
   width: 20px;
   height: 20px;
   border: 2px solid white;
-  border-radius: 20%;
-  /* box-shadow: rgba(0, 0, 0, 0.3) 0 1px 2px; */
   position: absolute;
   bottom: -10px;
   right: -10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* font-weight: bold; */
   color: black;
+  border-radius: 20%;
+}
+
+#grid-container .tab-icon {
+  width: 30px;
+  height: 30px;
+}
+
+/* GENERIC */
+.tab .close-tab {
+  display: none;
+}
+
+.tab:hover .close-tab {
+  display: block;
+  background-color: #DC143C;
+  color: white;
+  cursor: pointer;
+  border-radius: 20%;
+}
+
+.tab:hover .badge-text {
+  display: none;
 }

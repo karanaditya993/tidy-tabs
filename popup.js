@@ -1,6 +1,7 @@
 (()  => {
   const GET_DOMAIN_REGEX  = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img
   let tabsData            = []
+  let experienceType
 
   const getDomainFromUrl = (url) => {
     const a = document.createElement('a')
@@ -68,21 +69,25 @@
   )
 
   const renderTabList = () => {
-    tabsData.map((tab, idx) => {
+    tabsData.map((tab) => {
       let tabsEl
       let badgeEl       = document.createElement('div')
       let tabEl         = document.createElement('div')
       tabEl.className   = 'tab'
       badgeEl.className = 'tab-badge-icon'
+      const favicon        = document.createElement('img')
+
+      favicon.src       = tab.icon
+      favicon.className = 'tab-icon'
+      favicon.onerror   = () => {
+        favicon.src        = 'assets/images/chrome-logo.png'
+      }
 
       if (isOnListView()) {
         tabsEl            = document.getElementsByClassName('list-tabs')[0]
-        const favicon     = document.createElement('img')
         const label       = document.createElement('div')
 
         tabEl.dataset.tabIds = tab.tabIds.join(',')
-
-        favicon.src       = tab.icon
 
         label.className   = 'tab-label'
         label.innerHTML   = `<span class="tab-name">${tab.name}</span>`
@@ -94,20 +99,18 @@
         tabEl.appendChild(label)
       } else if (isOnGridView()) {
         tabsEl               = document.getElementsByClassName('grid-tabs')[0]
-        const numBadge       = document.createElement('div')
 
         tabEl.dataset.tabIds = tab.tabIds.join(',')
 
-        numBadge.className   = 'num-badge'        
-        numBadge.innerText   = tab.tabIds.length
-        numBadge.style.backgroundColor = getBadgeColor(tab.tabIds.length)
+        badgeEl.className = 'num-badge'
+        badgeEl.innerHTML = `<span class="badge-text">${tab.tabIds.length}</span> <i class="close-tab material-icons">close</i>`
+        badgeEl.style.backgroundColor = getBadgeColor(tab.tabIds.length)
 
-        // badgeEl.style.backgroundImage = `url(${tab.icon})`
-        badgeEl.innerHTML = `<img src='${tab.icon}' height='30px' width='30px' />`
-        badgeEl.style.backgroundRepeat = 'no-repeat'
-        badgeEl.style.backgroundSize = 'cover'
+        tabEl.style.backgroundRepeat = 'no-repeat'
+        tabEl.style.backgroundSize = 'cover'
         
-        badgeEl.appendChild(numBadge)
+        tabEl.appendChild(favicon)
+        tabEl.appendChild(badgeEl)
       }
       tabEl && tabEl.appendChild(badgeEl)
       tabsEl && tabsEl.appendChild(tabEl)
@@ -121,6 +124,7 @@
       icons[1].classList.remove('active')
       document.getElementById('grid-container').style.display = 'none'
       document.getElementById('list-container').style.display = 'block'
+      // addExperienceType('list')
       renderTabList()
     });
 
@@ -129,23 +133,24 @@
       icons[0].classList.remove('active')
       document.getElementById('grid-container').style.display = 'block'
       document.getElementById('list-container').style.display = 'none'
+      // addExperienceType('grid')
       renderTabList()
     });
   }
 
-  const addMutationListener = (containerSelector, clickTarget) => {
+  const addMutationListener = (containerSelector) => {
     let tabCloseIcons
     const targetNode = document.getElementsByClassName(containerSelector)[0]
     const observer   = new MutationObserver(() => {
       if (!tabCloseIcons) {
-        tabCloseIcons = [...document.querySelectorAll(clickTarget)]
+        tabCloseIcons = [...document.querySelectorAll('.tab')]
         tabCloseIcons.map((icon) => {
           icon.addEventListener('click', (el) => {
             const tabEl = el.target.closest('.tab')
             const tabIds = tabEl.dataset.tabIds.split(',').map(val => Number(val))
             chrome.tabs.remove(tabIds, () => {
               observer.disconnect()
-              window.location.reload()
+              window.location.href = `${window.location.href}?experience_type=${experienceType}`
             })
           })
         })
@@ -156,11 +161,19 @@
 
   const addListeners = () => {
     toggleIconListeners()
-    addMutationListener('list-tabs', '.tab-badge-icon')
-    addMutationListener('grid-tabs', '.tab')
+    addMutationListener('list-tabs')
+    addMutationListener('grid-tabs')
   }
 
+  // const addExperienceType = (experienceType) => {
+  //   const url = new URL(window.location.href)
+  //   const experience = url.searchParams.experience_type || experienceType || 'list'
+  //   url.searchParams.set('experience_type', experience)
+  //   window.location.replace(url.href);
+  // }
+
   window.onload = () => {
+    // addExperienceType()
     addListeners()
     chrome.tabs.query({}, partitionTabs)
   }
