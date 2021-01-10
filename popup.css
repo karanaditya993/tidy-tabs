@@ -69,7 +69,7 @@ i.active {
 }
 
 /* LIST CONTAINER */
-#list-container img {
+#list-container img, #list-container .favicon-container {
   height: 20px;
   width: 20px;
   padding-left: 10px;
@@ -118,7 +118,9 @@ i.active {
   justify-content: flex-start;
   align-items: center;
   padding-left: 5px;
-  position: relative; 
+  position: relative;
+  cursor: pointer;
+  margin-right: 10px;
 }
 
 #list-container .tab-label {
@@ -182,6 +184,7 @@ i.active {
   position: relative;
   background-color: #f5f5f7;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 #grid-container .num-badge { 
@@ -196,6 +199,11 @@ i.active {
   align-items: center;
   color: black;
   border-radius: 20%;
+}
+
+#grid-container .tab-icon {
+  width: 30px;
+  height: 30px;
 }
 
 /* GENERIC */

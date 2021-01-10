@@ -75,15 +75,19 @@
       let tabEl         = document.createElement('div')
       tabEl.className   = 'tab'
       badgeEl.className = 'tab-badge-icon'
+      const favicon        = document.createElement('img')
+
+      favicon.src       = tab.icon
+      favicon.className = 'tab-icon'
+      favicon.onerror   = () => {
+        favicon.src        = 'assets/images/chrome-logo.png'
+      }
 
       if (isOnListView()) {
         tabsEl            = document.getElementsByClassName('list-tabs')[0]
-        const favicon     = document.createElement('img')
         const label       = document.createElement('div')
 
         tabEl.dataset.tabIds = tab.tabIds.join(',')
-
-        favicon.src       = tab.icon
 
         label.className   = 'tab-label'
         label.innerHTML   = `<span class="tab-name">${tab.name}</span>`
@@ -102,11 +106,10 @@
         badgeEl.innerHTML = `<span class="badge-text">${tab.tabIds.length}</span> <i class="close-tab material-icons">close</i>`
         badgeEl.style.backgroundColor = getBadgeColor(tab.tabIds.length)
 
-        // badgeEl.style.backgroundImage = `url(${tab.icon})`
-        tabEl.innerHTML = `<img src='${tab.icon}' height='30px' width='30px' />`
         tabEl.style.backgroundRepeat = 'no-repeat'
         tabEl.style.backgroundSize = 'cover'
         
+        tabEl.appendChild(favicon)
         tabEl.appendChild(badgeEl)
       }
       tabEl && tabEl.appendChild(badgeEl)
@@ -135,12 +138,12 @@
     });
   }
 
-  const addMutationListener = (containerSelector, clickTarget) => {
+  const addMutationListener = (containerSelector) => {
     let tabCloseIcons
     const targetNode = document.getElementsByClassName(containerSelector)[0]
     const observer   = new MutationObserver(() => {
       if (!tabCloseIcons) {
-        tabCloseIcons = [...document.querySelectorAll(clickTarget)]
+        tabCloseIcons = [...document.querySelectorAll('.tab')]
         tabCloseIcons.map((icon) => {
           icon.addEventListener('click', (el) => {
             const tabEl = el.target.closest('.tab')
@@ -158,8 +161,8 @@
 
   const addListeners = () => {
     toggleIconListeners()
-    addMutationListener('list-tabs', '.tab-badge-icon')
-    addMutationListener('grid-tabs', '.tab')
+    addMutationListener('list-tabs')
+    addMutationListener('grid-tabs')
   }
 
   // const addExperienceType = (experienceType) => {
