@@ -1,7 +1,7 @@
 (()  => {
   const GET_DOMAIN_REGEX  = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img
+  let observer
   let tabsData            = []
-  let experienceType
 
   const getDomainFromUrl = (url) => {
     const a = document.createElement('a')
@@ -10,7 +10,8 @@
     return a.hostname;
   }
 
-  const partitionTabs = (tabs) => {
+  const partitionTabs = (tabs, isRemoving) => {
+    if (isRemoving) { tabsData = [] }
     tabs.map((tab) => {
       const matchedUrl = tab.url.match(GET_DOMAIN_REGEX)[0]
       const sameTab    = tabsData.find(t => t.url === matchedUrl)
@@ -26,7 +27,15 @@
       }
     })
     tabsData = tabsData.sort((tab1, tab2) => tab2.tabIds.length - tab1.tabIds.length)
-    renderTabList(tabsData)
+    // resetHTML
+    if (isRemoving) {
+      document.getElementsByClassName('list-tabs')[0].innerHTML = ''
+      document.getElementsByClassName('grid-tabs')[0].innerHTML = ''
+      observer.disconnect()
+      addMutationListener('list-tabs')
+      addMutationListener('grid-tabs')
+    }
+    renderTabList()
   }
 
   const getBadgeColor = (numTabs) => {
@@ -124,7 +133,6 @@
       icons[1].classList.remove('active')
       document.getElementById('grid-container').style.display = 'none'
       document.getElementById('list-container').style.display = 'block'
-      // addExperienceType('list')
       renderTabList()
     });
 
@@ -133,7 +141,6 @@
       icons[0].classList.remove('active')
       document.getElementById('grid-container').style.display = 'block'
       document.getElementById('list-container').style.display = 'none'
-      // addExperienceType('grid')
       renderTabList()
     });
   }
@@ -141,7 +148,7 @@
   const addMutationListener = (containerSelector) => {
     let tabCloseIcons
     const targetNode = document.getElementsByClassName(containerSelector)[0]
-    const observer   = new MutationObserver(() => {
+    observer   = new MutationObserver(() => {
       if (!tabCloseIcons) {
         tabCloseIcons = [...document.querySelectorAll('.tab')]
         tabCloseIcons.map((icon) => {
@@ -150,7 +157,9 @@
             const tabIds = tabEl.dataset.tabIds.split(',').map(val => Number(val))
             chrome.tabs.remove(tabIds, () => {
               observer.disconnect()
-              window.location.href = `${window.location.href}?experience_type=${experienceType}`
+              chrome.tabs.getAllInWindow(null, (tabs) => {
+                partitionTabs(tabs, true)
+              })
             })
           })
         })
@@ -165,15 +174,7 @@
     addMutationListener('grid-tabs')
   }
 
-  // const addExperienceType = (experienceType) => {
-  //   const url = new URL(window.location.href)
-  //   const experience = url.searchParams.experience_type || experienceType || 'list'
-  //   url.searchParams.set('experience_type', experience)
-  //   window.location.replace(url.href);
-  // }
-
   window.onload = () => {
-    // addExperienceType()
     addListeners()
     chrome.tabs.query({}, partitionTabs)
   }
