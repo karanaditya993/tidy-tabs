@@ -1,5 +1,5 @@
 {
-  "name": "Tidy Tab",
+  "name": "TidyTabs",
   "version": "1.0",
   "description": "A browser extension that lets you choose which tabs you would like to close by domain",
   "browser_action": {

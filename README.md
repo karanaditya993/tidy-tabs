@@ -1,4 +1,4 @@
-# Tidy Tab
+# TidyTabs
 A browser extension that lets you choose which tabs you would like to close by domain
 
 *In List and Grid View*
