@@ -1,6 +1,6 @@
 {
   "name": "TidyTabs",
-  "version": "1.0",
+  "version": "1.1",
   "description": "A browser extension that lets you choose which tabs you would like to close by domain",
   "browser_action": {
     "default_popup":"popup.html",
