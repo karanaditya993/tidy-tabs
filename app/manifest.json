@@ -7,8 +7,6 @@
     "default_icon":"assets/images/trash.png"
   },
   "permissions": [
-    "declarativeContent",
-    "storage",
     "tabs"
   ],
   "manifest_version": 2
