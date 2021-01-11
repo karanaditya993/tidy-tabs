@@ -31,8 +31,20 @@ body.dark .grid-tabs {
   background-color: #282c34;
 }
 
+body.dark #grid-container .tab {
+  background-color: #404347;
+}
+
 body.dark .grid-tab-container {
   background-color: #282c34;
+}
+
+body.dark #grid-container .num-badge {
+  border: none;
+}
+
+body.dark #list-container .tab:hover {
+  background-color: #404347;
 }
 
 .dark-mode-toggle-icon {
@@ -54,6 +66,13 @@ body.dark .grid-tab-container {
   align-items: center;
   position: relative;
   margin-bottom: 5px;
+}
+
+#dark-mode {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
 }
 
 #trash {
@@ -101,6 +120,10 @@ i.active {
   cursor: auto;
 }
 
+i.dark {
+  color: #fdd27a;
+}
+
 /* LIST CONTAINER */
 #list-container img, #list-container .favicon-container {
   height: 20px;
@@ -127,15 +150,15 @@ i.active {
   font-weight: none;
 }
 
-/*--TO DO: fix scroll over numbers --*/
 #list-container .list-tab-container {
-  width: 100%;
+  width: 320px;
   background: white;
   max-height: 340px;
   display: flex;
   flex-flow: column;
   flex-wrap: nowrap;
   overflow: scroll;
+  border-top: 1px solid white;
 }
 
 #list-container .list-tabs {
@@ -185,6 +208,7 @@ i.active {
   color: black;
   font-weight: normal;
   border-radius: 20%;
+  margin-right: 25px;
   position: absolute;
   right: 0;
 }
@@ -254,69 +278,4 @@ i.active {
 
 .tab:hover .badge-text {
   display: none;
-}
-
-/* toggle switch */
-/* The switch - the box around the slider */
-.switch {
-  position: absolute;
-  width: 50px;
-  height: 25px;
-  top: 10px;
-  right: 10px;
-}
-
-/* Hide default HTML checkbox */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 2px;
-  bottom: 3px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
 }

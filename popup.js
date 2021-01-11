@@ -129,16 +129,28 @@
   const toggleIconListeners = () => {
     const icons = document.querySelectorAll('.material-icons')
     icons[0].addEventListener('click', () => {
-      icons[0].classList.add('active')
-      icons[1].classList.remove('active')
+      const url = new URL(window.location.href)
+      window.history.replaceState(null, '', url.href);
+      if (!icons[0].classList.contains('dark')) {
+        document.body.classList.add('dark')
+        icons[0].classList.add('dark')
+      } else {
+        document.body.classList.remove('dark')
+        icons[0].classList.remove('dark')
+      }
+    });
+
+    icons[1].addEventListener('click', () => {
+      icons[1].classList.add('active')
+      icons[2].classList.remove('active')
       document.getElementById('grid-container').style.display = 'none'
       document.getElementById('list-container').style.display = 'block'
       renderTabList()
     });
 
-    icons[1].addEventListener('click', () => {
-      icons[1].classList.add('active')
-      icons[0].classList.remove('active')
+    icons[2].addEventListener('click', () => {
+      icons[2].classList.add('active')
+      icons[1].classList.remove('active')
       document.getElementById('grid-container').style.display = 'block'
       document.getElementById('list-container').style.display = 'none'
       renderTabList()
@@ -157,7 +169,7 @@
             const tabIds = tabEl.dataset.tabIds.split(',').map(val => Number(val))
             chrome.tabs.remove(tabIds, () => {
               observer.disconnect()
-              chrome.tabs.getAllInWindow(null, (tabs) => {
+              chrome.tabs.query({}, (tabs) => {
                 partitionTabs(tabs, true)
               })
             })
@@ -168,44 +180,14 @@
     observer.observe(targetNode, { childList: true })
   }
 
-  const addDarkModeListener = () => {
-    const switchCheckbox = document.getElementById('switch-checkbox')
-    switchCheckbox.addEventListener('click', (el) => {
-      const url = new URL(window.location.href)
-      url.searchParams.set('dark_mode', el.target.checked)
-      window.history.replaceState(null, '', url.href);
-      if (el.target.checked) {
-        document.body.classList.add('dark')
-      } else {
-        document.body.classList.remove('dark')
-      }
-    })
-  }
-
   const addListeners = () => {
-    addDarkModeListener()
     toggleIconListeners()
     addMutationListener('list-tabs')
     addMutationListener('grid-tabs')
   }
 
-  const darkModeCheck = () => {
-    if (window.location.search.includes('dark_mode')) {
-      const url = new URL(window.location.href)
-      const isDarkMode = url.searchParams.get('dark_mode')
-      if (isDarkMode === 'true') {
-        document.getElementById('switch-checkbox').checked = true
-        document.body.classList.add('dark')
-      } else {
-        document.getElementById('switch-checkbox').checked = false
-        document.body.classList.remove('dark')
-      }
-    }
-  }
-
   window.onload = () => {
     addListeners()
-    darkModeCheck()
     chrome.tabs.query({}, partitionTabs)
   }
 })()
