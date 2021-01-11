@@ -168,14 +168,44 @@
     observer.observe(targetNode, { childList: true })
   }
 
+  const addDarkModeListener = () => {
+    const switchCheckbox = document.getElementById('switch-checkbox')
+    switchCheckbox.addEventListener('click', (el) => {
+      const url = new URL(window.location.href)
+      url.searchParams.set('dark_mode', el.target.checked)
+      window.history.replaceState(null, '', url.href);
+      if (el.target.checked) {
+        document.body.classList.add('dark')
+      } else {
+        document.body.classList.remove('dark')
+      }
+    })
+  }
+
   const addListeners = () => {
+    addDarkModeListener()
     toggleIconListeners()
     addMutationListener('list-tabs')
     addMutationListener('grid-tabs')
   }
 
+  const darkModeCheck = () => {
+    if (window.location.search.includes('dark_mode')) {
+      const url = new URL(window.location.href)
+      const isDarkMode = url.searchParams.get('dark_mode')
+      if (isDarkMode === 'true') {
+        document.getElementById('switch-checkbox').checked = true
+        document.body.classList.add('dark')
+      } else {
+        document.getElementById('switch-checkbox').checked = false
+        document.body.classList.remove('dark')
+      }
+    }
+  }
+
   window.onload = () => {
     addListeners()
+    darkModeCheck()
     chrome.tabs.query({}, partitionTabs)
   }
 })()
