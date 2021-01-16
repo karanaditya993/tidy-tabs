@@ -3,9 +3,10 @@
   "version": "1.1",
   "description": "A browser extension that lets you choose which tabs you would like to close by domain",
   "browser_action": {
-    "default_popup":"popup.html",
-    "default_icon":"assets/images/trash.png"
+    "default_popup":"index.html",
+    "default_icon":"trash.png"
   },
+  "content_security_policy": "script-src 'self' 'sha256-YXh9k/4KPrzLBkiLVk6Wc86j5sbilD3LiBBh6NAR5eQ='; object-src 'self'",
   "permissions": [
     "tabs"
   ],
